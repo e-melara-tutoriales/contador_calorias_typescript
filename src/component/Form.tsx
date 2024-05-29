@@ -21,6 +21,11 @@ export default function Form() {
     })
   }
 
+  const isValidForm = () => {
+    const { activity: actividad, calories, name } = activity;
+    return !actividad || !calories || !name.trim();
+  }
+
   return (
     <form className="space-y-5 bg-white shadow p-10 rounded-lg">
       <div className="grid grid-cols-1 gap-3">
@@ -65,9 +70,14 @@ export default function Form() {
       </div>
       <button
         type="submit"
-        className="bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold uppercase text-white cursor-pointer"
+        disabled={isValidForm()}
+        className="bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold uppercase text-white cursor-pointer disabled:opacity-10"
       >
-        {"Guardar Comida o Guardar Calorias"}
+        {
+          activity.activity === 1 ? 
+            "Guardar Comida" : 
+            "Guardar Ejercicio"
+        }
       </button>
     </form>
   );
