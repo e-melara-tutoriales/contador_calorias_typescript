@@ -1,16 +1,24 @@
 import { v4 as uuidV4 } from "uuid";
-import { useState, ChangeEvent, FormEvent, Dispatch } from "react";
+import { useState, ChangeEvent, FormEvent, Dispatch, useEffect } from "react";
 
 import type { Activity } from "../types";
 import { categories } from "../data/categories";
-import { ActivityActions } from "../reducers/activity-reducer";
+import { ActivityActions, ActivityState } from "../reducers/activity-reducer";
 
 type FormProps = {
+  state: ActivityState;
   dispatch: Dispatch<ActivityActions>;
 };
 
-export default function Form({ dispatch }: FormProps) {
+export default function Form({ dispatch, state }: FormProps) {
   const list = categories;
+
+  useEffect(() => {
+    if(state.activityId){
+      const activity = state.activities.find(activity => activity.id === state.activityId)
+      setActivity(activity || INITIAL_STATE)
+    }
+  },[state.activityId])
 
   const INITIAL_STATE = {
     id: uuidV4(),
